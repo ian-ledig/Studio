@@ -32,6 +32,7 @@ namespace AssetStudio.GUI
         private void InitializeComponent()
         {
             tableLayoutPanel2 = new TableLayoutPanel();
+            autoExport = new Button();
             loadAssetMap = new Button();
             clear = new Button();
             loadSelected = new Button();
@@ -53,11 +54,12 @@ namespace AssetStudio.GUI
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tableLayoutPanel2.ColumnCount = 4;
+            tableLayoutPanel2.ColumnCount = 5;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel2.Controls.Add(autoExport, 0, 0);
             tableLayoutPanel2.Controls.Add(loadAssetMap, 0, 0);
             tableLayoutPanel2.Controls.Add(clear, 1, 0);
             tableLayoutPanel2.Controls.Add(loadSelected, 2, 0);
@@ -66,8 +68,19 @@ namespace AssetStudio.GUI
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(518, 29);
+            tableLayoutPanel2.Size = new System.Drawing.Size(818, 29);
             tableLayoutPanel2.TabIndex = 3;
+            // 
+            // autoExport
+            // 
+            autoExport.Dock = DockStyle.Fill;
+            autoExport.Location = new System.Drawing.Point(0, 0);
+            autoExport.Name = "autoExport";
+            autoExport.Size = new System.Drawing.Size(114, 23);
+            autoExport.TabIndex = 0;
+            autoExport.Text = "Auto Export";
+            autoExport.UseVisualStyleBackColor = true;
+            autoExport.Click += autoExport_Click;
             // 
             // loadAssetMap
             // 
@@ -75,7 +88,7 @@ namespace AssetStudio.GUI
             loadAssetMap.Location = new System.Drawing.Point(3, 3);
             loadAssetMap.Name = "loadAssetMap";
             loadAssetMap.Size = new System.Drawing.Size(114, 23);
-            loadAssetMap.TabIndex = 0;
+            loadAssetMap.TabIndex = 1;
             loadAssetMap.Text = "Load AssetMap";
             loadAssetMap.UseVisualStyleBackColor = true;
             loadAssetMap.Click += loadAssetMap_Click;
@@ -86,7 +99,7 @@ namespace AssetStudio.GUI
             clear.Location = new System.Drawing.Point(123, 3);
             clear.Name = "clear";
             clear.Size = new System.Drawing.Size(54, 23);
-            clear.TabIndex = 1;
+            clear.TabIndex = 2;
             clear.Text = "Clear";
             clear.UseVisualStyleBackColor = true;
             clear.Click += clear_Click;
@@ -97,7 +110,7 @@ namespace AssetStudio.GUI
             loadSelected.Location = new System.Drawing.Point(183, 3);
             loadSelected.Name = "loadSelected";
             loadSelected.Size = new System.Drawing.Size(114, 23);
-            loadSelected.TabIndex = 2;
+            loadSelected.TabIndex = 3;
             loadSelected.Text = "Load Selected";
             loadSelected.UseVisualStyleBackColor = true;
             loadSelected.Click += loadSelected_Click;
@@ -108,7 +121,7 @@ namespace AssetStudio.GUI
             exportSelected.Location = new System.Drawing.Point(303, 3);
             exportSelected.Name = "exportSelected";
             exportSelected.Size = new System.Drawing.Size(212, 23);
-            exportSelected.TabIndex = 3;
+            exportSelected.TabIndex = 4;
             exportSelected.Text = "Export Selected";
             exportSelected.UseVisualStyleBackColor = true;
             exportSelected.Click += exportSelected_Click;
@@ -124,7 +137,7 @@ namespace AssetStudio.GUI
             assetDataGridView.Name = "assetDataGridView";
             assetDataGridView.ReadOnly = true;
             assetDataGridView.RowTemplate.Height = 25;
-            assetDataGridView.Size = new System.Drawing.Size(518, 263);
+            assetDataGridView.Size = new System.Drawing.Size(818, 263);
             assetDataGridView.TabIndex = 2;
             assetDataGridView.VirtualMode = true;
             assetDataGridView.CellValueNeeded += AssetDataGridView_CellValueNeeded;
@@ -144,7 +157,7 @@ namespace AssetStudio.GUI
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new System.Drawing.Size(524, 333);
+            tableLayoutPanel1.Size = new System.Drawing.Size(824, 333);
             tableLayoutPanel1.TabIndex = 3;
             // 
             // tableLayoutPanel3
@@ -165,7 +178,7 @@ namespace AssetStudio.GUI
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(518, 29);
+            tableLayoutPanel3.Size = new System.Drawing.Size(818, 29);
             tableLayoutPanel3.TabIndex = 4;
             // 
             // sourceTextBox
@@ -222,7 +235,7 @@ namespace AssetStudio.GUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(548, 357);
+            ClientSize = new System.Drawing.Size(848, 357);
             Controls.Add(tableLayoutPanel1);
             Name = "AssetBrowser";
             ShowIcon = false;
@@ -242,6 +255,7 @@ namespace AssetStudio.GUI
         #endregion
 
         private TableLayoutPanel tableLayoutPanel2;
+        private Button autoExport;
         private Button loadAssetMap;
         private Button clear;
         private Button loadSelected;

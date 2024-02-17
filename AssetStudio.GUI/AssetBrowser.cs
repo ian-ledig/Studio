@@ -5,6 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,6 +64,62 @@ namespace AssetStudio.GUI
             }
             loadAssetMap.Enabled = true;
         }
+
+
+        private async void autoExport_Click(object sender, EventArgs e)
+        {
+            var saveFolderDialog = new OpenFolderDialog();
+            if (saveFolderDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                Logger.Info("Starting auto export... This task can take a long time");
+                Logger.Info($"Check {saveFolderDialog.Folder + "\\export_log.txt"} to see the progress");
+
+                string logFilePath = Path.Combine(saveFolderDialog.Folder, "export_log.txt");
+
+                _parent.Invoke(_parent.ResetForm);
+                var statusStripUpdate = StatusStripUpdate;
+                StatusStripUpdate = Logger.Info;
+                assetsManager.Game = Studio.Game;
+
+                var entriesByContainer = _assetEntries.GroupBy(entry => entry.Container).ToArray();
+
+                using (StreamWriter logWriter = new StreamWriter(logFilePath))
+                {
+                    foreach (var containerGroup in entriesByContainer)
+                    {
+                        Logger.Info($"Exporting assets from container {containerGroup.Key}");
+                        logWriter.WriteLine($"Exporting assets from container {containerGroup.Key}");
+                        logWriter.Flush();
+
+                        var containerEntries = containerGroup.ToArray();
+                        var files = containerEntries.Select(entry => entry.Source).Distinct().ToArray();
+
+                        await Task.Run(async () =>
+                        {
+                            foreach (var file in files)
+                            {
+                                var toExportAssets = new List<AssetItem>();
+
+                                assetsManager.LoadFiles(file);
+                                if (assetsManager.assetsFileList.Count > 0)
+                                {
+                                    var entriesInFile = containerEntries.Where(entry => entry.Source == file).ToArray();
+                                    BuildAssetData(toExportAssets, entriesInFile);
+                                    await ExportAssets(saveFolderDialog.Folder, toExportAssets, ExportType.Convert, false);
+                                }
+                                toExportAssets.Clear();
+                                assetsManager.Clear();
+                            }
+                        });
+                    }
+                }
+
+                StatusStripUpdate = statusStripUpdate;
+            }
+        }
+
+
+
         private void clear_Click(object sender, EventArgs e)
         {
             Clear();

@@ -83,10 +83,32 @@ namespace AssetStudio.GUI
 
                 var entriesByContainer = _assetEntries.GroupBy(entry => entry.Container).ToArray();
 
+                string container = "-215809177";
+
                 using (StreamWriter logWriter = new StreamWriter(logFilePath))
                 {
+                    if (container != "")
+                    {
+                        Logger.Info($"Waiting container {container} to start...");
+                        logWriter.WriteLine($"Waiting container {container} to start...");
+                    }
+
                     foreach (var containerGroup in entriesByContainer)
                     {
+                        // Skip all containers until we find the one we want to continue from
+                        if(container != "")
+                        {
+                            if(containerGroup.Key == container)
+                            {
+                                container = "";
+                            }
+                            else
+                            {
+                                Logger.Info($"Skipping container {containerGroup.Key}");
+                                continue;
+                            }
+                        }
+
                         Logger.Info($"Exporting assets from container {containerGroup.Key}");
                         logWriter.WriteLine($"Exporting assets from container {containerGroup.Key}");
                         logWriter.Flush();
